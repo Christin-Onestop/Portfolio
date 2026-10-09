@@ -1,97 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Finder</title>
-    <link rel="stylesheet" href="style.css" class="css">
-    <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer"
-    />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="color-scheme" content="light only"/>
+  <meta name="theme-color" content="#f7f6f1"/>
+  <title>Tyt — 前端网页作品集</title>
+
+  <!-- Hand-drawn house fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Special+Elite&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fa-solid fa-utensils"></i>Recipe Finder</h1>
-            <p>Find delicious recipe from around the world</p>
-        </header>
 
-        <p class="api-link">Data from <a href="https://www.themealdb.com/api.php">The MealDB 🧑‍🍳</a></p>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search for meals or keywords">
-            <button id="search-btn">Search</button>
-        </div>
+  <!-- Squigglevision (hand-drawn boil) filter -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="squiggle" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
 
-        <div id="error-container" class="hidden">
-            <p>No meals found. Try another input.</p>
-        </div>
+    <!-- Footer THANK YOU border: 3 hand-drawn "boil" seeds, cycled in script.js -->
+    <filter id="footer-boil-0" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="2" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="footer-boil-1" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="22" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="footer-boil-2" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="47" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
 
-        <div id="result-heading"></div>
+  <!-- ===== Navigation (hand-drawn image buttons) ===== -->
+  <nav class="nav-bar">
+    <a class="nav-link" href="#about">
+      <img src="img/tf/nav-about.png" alt="关于"/>
+      <img class="nav-active" src="img/tf/nav-about-active.png" alt="" aria-hidden="true"/>
+    </a>
+    <a class="nav-link" href="#work">
+      <img src="img/tf/nav-work.png" alt="作品"/>
+      <img class="nav-active" src="img/tf/nav-work-active.png" alt="" aria-hidden="true"/>
+    </a>
+    <a class="nav-link" href="#contact">
+      <img src="img/tf/nav-links.png" alt="联系"/>
+      <img class="nav-active" src="img/tf/nav-links-active.png" alt="" aria-hidden="true"/>
+    </a>
+  </nav>
 
-        <div id="meals" class="meals-container">
-            <!-- <div class="meal" data-meal-id="52777">
-            <img src="https://www.themealdb.com/images/media/meals/wvqpwt1468339226.jpg" alt="Mediterranean Pasta Salad">
-                    <div class="meal-info">
-                        <h3 class="meal-title">Mediterranean Pasta Salad</h3>
-                        <div class="meal-category">Seafood</div>
-                    </div>
-            </div>
-            <div class="meal" data-meal-id="52777">
-            <img src="https://www.themealdb.com/images/media/meals/wvqpwt1468339226.jpg" alt="Mediterranean Pasta Salad">
-                    <div class="meal-info">
-                        <h3 class="meal-title">Mediterranean Pasta Salad</h3>
-                        <div class="meal-category">Seafood</div>
-                    </div>
-            </div>
-            <div class="meal" data-meal-id="52777">
-            <img src="https://www.themealdb.com/images/media/meals/wvqpwt1468339226.jpg" alt="Mediterranean Pasta Salad">
-                    <div class="meal-info">
-                        <h3 class="meal-title">Mediterranean Pasta Salad</h3>
-                        <div class="meal-category">Seafood</div>
-                    </div>
-            </div> -->
-        </div>
+  <!-- ===== Biography ===== -->
+  <section id="about" class="section">
+    <img class="page-img" src="img/biography.png" alt="关于 Tyt"/>
+  </section>
 
-        <div id="meal-details" class="hidden">
-            <button id="back-btn"><i class="fa-solid fa-arrow-left"></i>Back to recipes</button>
-            <div class="meal-details-content">
-                <!-- <img src="https://www.themealdb.com/images/media/meals/wvqpwt1468339226.jpg" alt="Mediterranean Pasta Salad" class="meal-details-img">
-                <h2 class="meal-details-title">Mediterranean Pasta Salad</h2>
-                <div class="meal-details-category">
-                    <span>Seafood</span>
-                </div>
-                <div class="meal-details-instructions">
-                    <h3>Instructions</h3>
-                    <p>Bring a large saucepan of salted water to the boil
-                    Add the pasta, stir once and cook for about 10 minutes or as directed on the packet.Meanwhile, wash the tomatoes and cut into quarters. Slice the olives. Wash the basil.</p>
-                </div>
-                <div class="meal-details-ingredients">
-                    <h3>Ingredients</h3>
-                    <ul class="ingredients-list">  
-                        <li><i class="fas fa-check-circle"></i> 200 g mozzarella balls</li>
-                        <li><i class="fas fa-check-circle"></i> 250 g baby plum tomatoes</li>           
-                        <li><i class="fas fa-check-circle"></i> 1  bunch fresh basil</li>     
-                        <li><i class="fas fa-check-circle"></i> 350 g farfalle</li>       
-                        <li><i class="fas fa-check-circle"></i> 3  tablespoons extra virgin olive oil</li>          
-                        <li><i class="fas fa-check-circle"></i> 40 g Green Olives</li>          
-                        <li><i class="fas fa-check-circle"></i> 200 g tuna</li>            
-                        <li><i class="fas fa-check-circle"></i> to taste salt</li>            
-                        <li><i class="fas fa-check-circle"></i> to taste pepper</li>            
-                    </ul>
-                </div>
-                    <a href="https://www.youtube.com/watch?v=e52IL8zYmaE" target="_blank" class="youtube-link">
-                        <i class="fab fa-youtube"></i> Watch Video
-                    </a>
-                </div> -->
-            </div>
-        </div>
-
+  <!-- ===== Showreel / Work ===== -->
+  <section id="work" class="section work-section">
+    <div class="work-head">
+      <h2>Showreel</h2>
+      <p>我的前端网页作品 · 点击任意卡片即可查看完整页面</p>
     </div>
 
-    <script src="script.js"></script>
+    <div id="meals" class="work-grid">
+      <a class="meal" data-url="https://web-developing-beryl.vercel.app/">
+        <div class="meal-frame">
+          <img class="meal-screen" src="img/Register.png" alt="Register Form"/>
+          <img class="meal-line" src="img/tf/worksq1-empty.png" alt=""/>
+        </div>
+        <div class="meal-label">Register Form</div>
+      </a>
+
+      <a class="meal" data-url="https://quiz-game-ten-ruddy.vercel.app/">
+        <div class="meal-frame">
+          <img class="meal-screen" src="img/QuizGame.png" alt="Quiz Time"/>
+          <img class="meal-line" src="img/tf/worksq1-empty.png" alt=""/>
+        </div>
+        <div class="meal-label">Quiz Time</div>
+      </a>
+
+      <a class="meal" data-url="https://recipe-finder-eta-rust.vercel.app/">
+        <div class="meal-frame">
+          <img class="meal-screen" src="img/RecipeFinder.png" alt="Recipe Finder"/>
+          <img class="meal-line" src="img/tf/worksq1-empty.png" alt=""/>
+        </div>
+        <div class="meal-label">Recipe Finder</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer id="contact" class="footer">
+    <div class="gag">
+      <div class="thanks-frame">
+        <img class="gag-sparks gag-sparks-even" src="img/tf/gag-sparks-even.png" alt="" aria-hidden="true"/>
+        <img class="gag-sparks gag-sparks-odd" src="img/tf/gag-sparks-odd.png" alt="" aria-hidden="true"/>
+        <img class="thanks" src="img/thanks.png" alt="THANK YOU"/>
+      </div>
+
+      <!-- <img class="gag-sparks gag-sparks-even" src="img/tf/gag-sparks-even.png" alt="" aria-hidden="true"/>
+      <img class="gag-sparks gag-sparks-odd" src="img/tf/gag-sparks-odd.png" alt="" aria-hidden="true"/> -->
+
+      <!-- <div class="printed-photo">
+        <div class="photo-crop">
+          <img class="portrait" src="img/me.png" alt="Tyt 的肖像"/>
+        </div>
+      </div> -->
+      <img class="portrait" src="img/me.png" alt="Tyt 的肖像"/>
+      <p class="photo-credit">drawn by hand ✳ coded with claude.ai</p>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Tyt · 前端网页作品集</p>
+      <a href="#about">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
